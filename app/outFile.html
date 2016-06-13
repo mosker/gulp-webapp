@@ -15,19 +15,25 @@
     <!-- endbuild -->
 
 	
-    <!-- build:js scripts/vendor/modernizr.js -->
+    <!-- build:js scripts/lib/vendor/modernizr.js -->
     <script src="/bower_components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
   </head>
   <body>
 
-    <!-- build:js scripts/jquery.js -->
+    <!-- build:js scripts/lib/jquery/jquery.js -->
     <!-- bower:js -->
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
+	
+	<!-- build:js scripts/require.js -->
+    <!-- bower:js -->
+    <script src="/bower_components/requirejs/require.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
     
-    <!-- build:js scripts/plugins.js -->
+    <!-- build:js scripts/lib/plugins/plugins.js -->
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/affix.js"></script>
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/alert.js"></script>
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js"></script>
@@ -42,8 +48,12 @@
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
     <!-- endbuild -->
     
-    <!-- build:js scripts/main.js -->
+    <!-- build:js scripts/site/index/main.js -->
     <script src="scripts/main.js"></script>
+    <!-- endbuild -->
+	
+	<!-- build:js scripts/require.config.js -->
+    <script src="scripts/require.config.js"></script>
     <!-- endbuild -->
   </body>
 </html>
