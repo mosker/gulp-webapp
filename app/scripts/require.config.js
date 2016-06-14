@@ -3,7 +3,7 @@
 
 
 var require = {
-	"baseUrl":"/scripts/lib",
+	"baseUrl":"scripts/lib",
 	"paths":{
 		jquery:"jquery/jquery",
 		plugins:"plugins/plugins"

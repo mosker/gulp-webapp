@@ -8,6 +8,7 @@ import {stream as wiredep} from 'wiredep';
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
 
+// scss压缩
 gulp.task('styles', () => {
   return gulp.src('app/styles/*.scss')
     .pipe($.plumber())
@@ -23,16 +24,18 @@ gulp.task('styles', () => {
     .pipe(reload({stream: true}));
 });
 
+// js处理
 gulp.task('scripts', () => {
   return gulp.src('app/scripts/**/*.js')
     .pipe($.plumber())
     .pipe($.sourcemaps.init())
-    //.pipe($.babel())
+    //.pipe($.babel())  //不需要babel处理可以注释掉
     .pipe($.sourcemaps.write('.'))
     .pipe(gulp.dest('.tmp/scripts'))
     .pipe(reload({stream: true}));
 });
 
+// 语法检验，不需要可以注释掉
 function lint(files, options) {
   return () => {
     return gulp.src(files)
@@ -51,6 +54,7 @@ const testLintOptions = {
 gulp.task('lint', lint('app/scripts/**/*.js'));
 gulp.task('lint:test', lint('test/spec/**/*.js', testLintOptions));
 
+// html处理，依赖任务styles、scripts
 gulp.task('html', ['styles', 'scripts'], () => {
   return gulp.src('app/*.html')
     .pipe($.useref({searchPath: ['.tmp', 'app', '.']}))
@@ -60,6 +64,7 @@ gulp.task('html', ['styles', 'scripts'], () => {
     .pipe(gulp.dest('dist'));
 });
 
+// 图片处理
 gulp.task('images', () => {
   return gulp.src('app/images/**/*')
     .pipe($.if($.if.isFile, $.cache($.imagemin({
@@ -76,6 +81,7 @@ gulp.task('images', () => {
     .pipe(gulp.dest('dist/images'));
 });
 
+// 字体处理
 gulp.task('fonts', () => {
   return gulp.src(require('main-bower-files')('**/*.{eot,svg,ttf,woff,woff2}', function (err) {})
     .concat('app/fonts/**/*'))
@@ -83,6 +89,7 @@ gulp.task('fonts', () => {
     .pipe(gulp.dest('dist/fonts'));
 });
 
+// 未处理的文件输出
 gulp.task('extras', () => {
   return gulp.src([
     'app/*.*',
@@ -92,8 +99,10 @@ gulp.task('extras', () => {
   }).pipe(gulp.dest('dist'));
 });
 
-gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
+// 清空指定目录
+gulp.task('clean', del.bind(null, ['.tmp', 'dist', 'rdist']));
 
+// 开启serve 
 gulp.task('serve', ['styles', 'scripts', 'fonts'], () => {
   browserSync({
     notify: false,
@@ -105,6 +114,8 @@ gulp.task('serve', ['styles', 'scripts', 'fonts'], () => {
       }
     }
   });
+  
+// 并监听实时变化
 
   gulp.watch([
     'app/*.html',
@@ -119,6 +130,8 @@ gulp.task('serve', ['styles', 'scripts', 'fonts'], () => {
   gulp.watch('bower.json', ['wiredep', 'fonts']);
 });
 
+// 开启dist目录监听
+
 gulp.task('serve:dist', () => {
   browserSync({
     notify: false,
@@ -129,6 +142,7 @@ gulp.task('serve:dist', () => {
   });
 });
 
+// 开启测试目录监听
 gulp.task('serve:test', ['scripts'], () => {
   browserSync({
     notify: false,
